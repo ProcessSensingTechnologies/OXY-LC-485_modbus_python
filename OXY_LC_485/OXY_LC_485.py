@@ -1,5 +1,5 @@
 import minimalmodbus
-import ModbusRegisters
+from utilities import ModbusRegisters
 from enum import IntEnum, auto
 
 
@@ -77,7 +77,7 @@ class OxyLc(minimalmodbus.Instrument):
 
     @property
     def heater_voltage(self):
-        self._heater_Voltage =  self.read_register(
+        self._heater_Voltage = self.read_register(
             ModbusRegisters.InputRegister.HEATER_VOLTAGE, functioncode=4
         )
         return self._heater_Voltage
