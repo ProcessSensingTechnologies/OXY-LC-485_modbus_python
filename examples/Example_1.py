@@ -13,3 +13,4 @@ while device.get_status() == OXY_LC_485.StatusValues.START_UP:
 while True:
     o2_average = device.get_o2_average()
     print(f"{o2_average = }")
+    sleep(2)
