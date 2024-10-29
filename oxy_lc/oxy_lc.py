@@ -91,7 +91,7 @@ class OxyLc(minimalmodbus.Instrument):
         return self.SensorState(_sensor_state)
 
     @sensor_state.setter
-    def set_sensor_state(self, state: SensorState) -> None:
+    def sensor_state(self, state: SensorState) -> None:
         """
         Set the current state of the sensor
 
@@ -135,3 +135,112 @@ class OxyLc(minimalmodbus.Instrument):
         self.write_register(
             HoldingRegister.HEATER_VOLTAGE_SAVE, self.SaveAndApply.Apply
         )
+
+    @property
+    def warnings(self) -> dict[str:bool]:
+        """
+        Reads and decodes the warnings and returns a dictionary with each warning/error with a corresponding boolean
+
+        :return: Warning states for each of the representative bits
+        :rtype: dict[str: bool]
+        """
+        warning_states = {
+            "Pump Error": False,
+            "Heater Voltage Error": False,
+            "Asymmetry Warning": False,
+            "O2 Low Warning": False,
+            "Pressure Sensor Warning": False,
+            "Pressure Sensor Error": False,
+        }
+        warnings_hex = self.read_register(InputRegister.WARNINGS, functioncode=4)
+
+        decode_to_bits = "{0:08b}".format(int(warnings_hex, 16))
+
+        for i, state in enumerate(warning_states):
+            if decode_to_bits[::-1][i] == 1:
+                warning_states[state] = True
+
+        return warning_states
+
+    def clear_error_flags(self) -> None:
+        """
+        Clears error flags on the device
+        """
+        self.write_register(HoldingRegister.CLEAR_FLAGS, 1)
+
+    @property
+    def td_average(self) -> float:
+        """
+        Get live sensor TD average
+
+        :return: TD Average
+        :rtype: float
+        """
+        td_average = self.read_register(InputRegister.TD_AVERAGE, functioncode=4)
+        return td_average / 10
+
+    @property
+    def td_raw(self) -> float:
+        """
+        Get live sensor TD raw
+
+        :return: TD raw
+        :rtype: float
+        """
+        td_raw = self.read_register(InputRegister.TD_RAW, functioncode=4)
+        return td_raw / 10
+
+    @property
+    def tp(self) -> float:
+        """
+        Get live sensor TP
+
+        :return: TP
+        :rtype: float
+        """
+        tp = self.read_register(InputRegister.TP, functioncode=4)
+        return tp / 10
+
+    @property
+    def t1(self) -> float:
+        """
+        Get live sensor T1
+
+        :return: T1
+        :rtype: float
+        """
+        t1 = self.read_register(InputRegister.T1, functioncode=4)
+        return t1 / 10
+
+    @property
+    def t2(self) -> float:
+        """
+        Get live sensor T2
+
+        :return: T2
+        :rtype: float
+        """
+        t2 = self.read_register(InputRegister.T2, functioncode=4)
+        return t2 / 10
+
+    @property
+    def t4(self) -> float:
+        """
+        Get live sensor T4
+
+        :return: T4
+        :rtype: float
+        """
+        t4 = self.read_register(InputRegister.T4, functioncode=4)
+        return t4 / 10
+
+    @property
+    def t5(self) -> float:
+        """
+        Get live sensor T5
+
+        :return: T5
+        :rtype: float
+        """
+        t5 = self.read_register(InputRegister.T5, functioncode=4)
+        return t5 / 10

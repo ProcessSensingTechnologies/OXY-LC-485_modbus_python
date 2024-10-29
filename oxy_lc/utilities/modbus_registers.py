@@ -26,7 +26,7 @@ class InputRegister(IntEnum):
 
 class HoldingRegister(IntEnum):
     SENSOR_STATE = 40001
-    CLEAR_Flags = 40002
+    CLEAR_FLAGS = 40002
     SHIDOWN_DELAY = 40003
     CALIBRATION_CONTROL = 40004
     CALIBRATION_PERCENT = 40005
