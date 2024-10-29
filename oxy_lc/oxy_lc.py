@@ -1,5 +1,5 @@
 import minimalmodbus
-from .utilities.ModbusRegisters import HoldingRegister, InputRegister
+from .utilities.modbus_registers import HoldingRegister, InputRegister
 from enum import IntEnum
 
 
@@ -25,7 +25,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def o2_average(self) -> float:
         """
-        Live sensor reading - O2 Average
+        Get live sensor reading - O2 Average
 
         :return: Current averaged O2 reading from the sensor
         :rtype: float
@@ -36,7 +36,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def o2_raw(self) -> float:
         """
-        Live sensor reading - O2 raw
+        Get live sensor reading - O2 raw
 
         :return: Current raw O2 reading from the sensor
         :rtype: float
@@ -47,7 +47,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def asymmetry(self) -> float:
         """
-        Live sensor reading - O2 asymmetry
+        Get live sensor reading - O2 asymmetry
 
         :return: Current asymmetry of the sensor
         :rtype: float
@@ -65,7 +65,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def status(self) -> StatusValues:
         """
-        Live sensor reading - current device status
+        Get live sensor reading - current device status
         Returned as Enum from StatusValues
 
         :return: Current status of the device
@@ -82,7 +82,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def sensor_state(self) -> SensorState:
         """
-        Live sensor reading - Sensor State
+        Get live sensor reading - Sensor State
 
         :return: Current state of the sensor
         :rtype: SensorState
@@ -113,7 +113,7 @@ class OxyLc(minimalmodbus.Instrument):
     @property
     def heater_voltage(self) -> float:
         """
-        Sensor setting - heater voltage
+        Get sensor setting - heater voltage
 
         :return: Current set heater voltage of the sensor
         :rtype: float

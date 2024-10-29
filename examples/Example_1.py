@@ -1,11 +1,11 @@
-from OXY_LC_485 import OXY_LC_485
+from oxy_lc import oxy_lc
 from time import sleep
 
-device = OXY_LC_485.OxyLc("COM4", 1)
+device = oxy_lc.OxyLc("COM4", 1)
 
-device.set_sensor_state(OXY_LC_485.SensorState.ON)
+device.set_sensor_state(oxy_lc.SensorState.ON)
 
-while device.get_status() == OXY_LC_485.StatusValues.START_UP:
+while device.get_status() == oxy_lc.StatusValues.START_UP:
     print(f"starting up: {device.get_status()}")
     sleep(5)
 
