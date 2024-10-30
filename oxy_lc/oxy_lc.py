@@ -1,6 +1,9 @@
 import minimalmodbus
 from .utilities.modbus_registers import HoldingRegister, InputRegister
+from .utilities.conversions import twos_compliment
 from enum import IntEnum
+
+
 
 
 class OxyLc(minimalmodbus.Instrument):
@@ -27,7 +30,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor reading - O2 Average
 
-        :return: Current averaged O2 reading from the sensor
+        :return: Current averaged O2 reading from the sensor (%)
         :rtype: float
         """
         o2_reading = self.read_register(InputRegister.O2_AVERAGE, functioncode=4)
@@ -38,7 +41,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor reading - O2 raw
 
-        :return: Current raw O2 reading from the sensor
+        :return: Current raw O2 reading from the sensor (%)
         :rtype: float
         """
         o2_reading = self.read_register(InputRegister.O2_RAW, functioncode=4)
@@ -115,7 +118,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get sensor setting - heater voltage
 
-        :return: Current set heater voltage of the sensor
+        :return: Current set heater voltage of the sensor (Volts)
         :rtype: float
         """
         _heater_Voltage = self.read_register(
@@ -173,7 +176,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor TD average
 
-        :return: TD Average
+        :return: TD Average (ms)
         :rtype: float
         """
         td_average = self.read_register(InputRegister.TD_AVERAGE, functioncode=4)
@@ -184,7 +187,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor TD raw
 
-        :return: TD raw
+        :return: TD raw (ms)
         :rtype: float
         """
         td_raw = self.read_register(InputRegister.TD_RAW, functioncode=4)
@@ -195,7 +198,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor TP
 
-        :return: TP
+        :return: TP (ms)
         :rtype: float
         """
         tp = self.read_register(InputRegister.TP, functioncode=4)
@@ -206,7 +209,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor T1
 
-        :return: T1
+        :return: T1 (ms)
         :rtype: float
         """
         t1 = self.read_register(InputRegister.T1, functioncode=4)
@@ -217,7 +220,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor T2
 
-        :return: T2
+        :return: T2 (ms)
         :rtype: float
         """
         t2 = self.read_register(InputRegister.T2, functioncode=4)
@@ -228,7 +231,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor T4
 
-        :return: T4
+        :return: T4 (ms)
         :rtype: float
         """
         t4 = self.read_register(InputRegister.T4, functioncode=4)
@@ -239,8 +242,57 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Get live sensor T5
 
-        :return: T5
+        :return: T5 (ms)
         :rtype: float
         """
         t5 = self.read_register(InputRegister.T5, functioncode=4)
         return t5 / 10
+
+    @property
+    def pp_o2_real(self) -> float:
+        """
+        Get live ppO2 Real
+
+        :return: ppO2 Real
+        :rtype: float
+        """
+        pp_o2 = self.read_register(InputRegister.PPO2_REAL, functioncode=4)
+        return pp_o2 / 10
+
+    @property
+    def pp_o2_raw(self) -> float:
+        """
+        Get live ppO2 raw
+
+        :return: ppO2 raw
+        :rtype: float
+        """
+        pp_o2 = self.read_register(InputRegister.PPO2_RAW, functioncode=4)
+        return pp_o2 / 10
+
+    @property
+    def pressure(self) -> float:
+        """
+        Get live pressure
+
+        :return: pressure (mbar)
+        :rtype: float
+        """
+        _pressure = self.read_register(InputRegister.PRESSURE, functioncode=4)
+        return _pressure
+
+    @property
+    def Pressure_sens_temperature(self) -> float:
+        """
+        Get live temperature of the pressure sensor
+
+        :return: temperature (°C)
+        :rtype: float
+        """
+        temp_decimal = self.read_register(
+            InputRegister.PRESSURE_SENS_TEMP, functioncode=4
+        )
+        
+        converted_temperature = twos_compliment(temp_decimal, 16)
+        
+        return converted_temperature
