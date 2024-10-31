@@ -48,7 +48,7 @@ This is a basic example. You can modify the script to handle specific sensor dat
 
 ## Contributing
 
-Process Sensing Technologies does not accept pull requests however, feel free to open issues for suppport or suggested changes.
+Please feel free to open issues for suppport or suggested changes.
 
 ## License
 

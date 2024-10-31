@@ -6,6 +6,7 @@ from time import sleep
 
 # region Errors
 
+
 class ValueRangeError(Exception):
     """Exception raised for value range error scenarios.
 
@@ -16,6 +17,7 @@ class ValueRangeError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
 
 # endregion
 
@@ -499,10 +501,10 @@ class OxyLc(minimalmodbus.Instrument):
 
     def turn_on(self):
         self.sensor_state = self.SensorState.ON
-        
+
     def turn_off(self):
         self.sensor_state = self.SensorState.OFF
-        
+
     def calibrate(self, calibration_value: float | None) -> bool:
         """
         Calibrate the sensor to the given percent value
