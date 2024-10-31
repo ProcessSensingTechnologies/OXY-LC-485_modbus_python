@@ -1,7 +1,7 @@
 from oxy_lc import oxy_lc
 from time import sleep
 
-device = oxy_lc.OxyLc("COM4")
+device = oxy_lc.OxyLc("COM7")
 
 device.sensor_state = device.SensorState.ON
 
@@ -12,7 +12,7 @@ while device.status() == device.StatusValues.START_UP:
     sleep(5)
 
 
-while True:
-    o2_average = device.o2_average()
-    print(f"{o2_average = }")
-    sleep(2)
+#while True:
+#    o2_average = device.o2_average()
+#    print(f"{o2_average = }")
+#    sleep(2)

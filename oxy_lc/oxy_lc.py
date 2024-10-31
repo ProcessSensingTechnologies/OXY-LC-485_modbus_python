@@ -6,7 +6,6 @@ from time import sleep
 
 # region Errors
 
-
 class ValueRangeError(Exception):
     """Exception raised for value range error scenarios.
 
@@ -17,7 +16,6 @@ class ValueRangeError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
-
 
 # endregion
 
@@ -450,7 +448,7 @@ class OxyLc(minimalmodbus.Instrument):
         self.write_register(HoldingRegister.CALIBRATION_CONTROL, control_setting)
 
     @property
-    def address(self) -> int:
+    def device_address(self) -> int:
         """
         Get device address
 
@@ -460,8 +458,8 @@ class OxyLc(minimalmodbus.Instrument):
         _address = self.read_register(HoldingRegister.ADDRESS)
         return _address
 
-    @address.setter
-    def address(self, new_address: int) -> None:
+    @device_address.setter
+    def device_address(self, new_address: int) -> None:
         """
         Set new device Address
 
@@ -499,6 +497,12 @@ class OxyLc(minimalmodbus.Instrument):
 
     # region Methods
 
+    def turn_on(self):
+        self.sensor_state = self.SensorState.ON
+        
+    def turn_off(self):
+        self.sensor_state = self.SensorState.OFF
+        
     def calibrate(self, calibration_value: float | None) -> bool:
         """
         Calibrate the sensor to the given percent value
