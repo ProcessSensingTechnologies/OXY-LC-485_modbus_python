@@ -2,9 +2,7 @@ import minimalmodbus
 from .utilities.modbus_registers import HoldingRegister, InputRegister
 from .utilities.conversions import twos_compliment
 from enum import IntEnum
-
-
-
+from time import sleep
 
 class OxyLc(minimalmodbus.Instrument):
     """
@@ -13,7 +11,7 @@ class OxyLc(minimalmodbus.Instrument):
     :param minimalmodbus: Child of minimalmodbus to use all included methods as standard
     """
 
-    def __init__(self, portname: str, slaveaddress: int):
+    def __init__(self, portname: str, slaveaddress: int = 1):
         """
         Initialiser for OxyLC communication. This should setup the connection to the device at the required protocol.
 
@@ -90,7 +88,7 @@ class OxyLc(minimalmodbus.Instrument):
         :return: Current state of the sensor
         :rtype: SensorState
         """
-        _sensor_state = self.read_register(HoldingRegister.SENSOR_STATE, functioncode=6)
+        _sensor_state = self.read_register(HoldingRegister.SENSOR_STATE, functioncode=3)
         return self.SensorState(_sensor_state)
 
     @sensor_state.setter
@@ -104,14 +102,14 @@ class OxyLc(minimalmodbus.Instrument):
         self.write_register(HoldingRegister.SENSOR_STATE, state)
 
     class HeaterOptions(IntEnum):
-        Heater_4V0 = 0
-        Heater_4V2 = 1
-        Heater_4V35 = 2
-        Heater_4V55 = 3
+        HEATER_4V0 = 0
+        HEATER_4V2 = 1
+        HEATER_4V35 = 2
+        HEATER_4V55 = 3
 
     class SaveAndApply(IntEnum):
-        Idle = 0
-        Apply = 1
+        IDLE = 0
+        APPLY = 1
 
     @property
     def heater_voltage(self) -> float:
@@ -135,9 +133,14 @@ class OxyLc(minimalmodbus.Instrument):
         :type state: HeaterOptions
         """
         self.write_register(HoldingRegister.HEATER_VOLTAGE, set_voltage)
-        self.write_register(
-            HoldingRegister.HEATER_VOLTAGE_SAVE, self.SaveAndApply.Apply
-        )
+        try:
+            self.write_register(
+                HoldingRegister.HEATER_VOLTAGE_SAVE, self.SaveAndApply.APPLY
+            )
+        except minimalmodbus.NoResponseError:
+            pass
+        
+        self.sensor_state = self.SensorState.ON
 
     @property
     def warnings(self) -> dict[str:bool]:
@@ -157,10 +160,10 @@ class OxyLc(minimalmodbus.Instrument):
         }
         warnings_hex = self.read_register(InputRegister.WARNINGS, functioncode=4)
 
-        decode_to_bits = "{0:08b}".format(int(warnings_hex, 16))
-
-        for i, state in enumerate(warning_states):
-            if decode_to_bits[::-1][i] == 1:
+        decode_to_bits = f"{warnings_hex:08b}"
+        
+        for count, state in enumerate(warning_states):
+            if decode_to_bits[::-1][count] == 1:
                 warning_states[state] = True
 
         return warning_states
@@ -282,7 +285,7 @@ class OxyLc(minimalmodbus.Instrument):
         return _pressure
 
     @property
-    def Pressure_sens_temperature(self) -> float:
+    def pressure_sens_temperature(self) -> float:
         """
         Get live temperature of the pressure sensor
 
@@ -292,7 +295,97 @@ class OxyLc(minimalmodbus.Instrument):
         temp_decimal = self.read_register(
             InputRegister.PRESSURE_SENS_TEMP, functioncode=4
         )
-        
+
         converted_temperature = twos_compliment(temp_decimal, 16)
-        
+
         return converted_temperature
+
+    class CalibrationStatus(IntEnum):
+        IDLE = 0
+        IN_PROGRESS = 1
+        COMPLETED = 2
+        
+    @property
+    def calibration_status(self) -> CalibrationStatus:
+        """
+        Get current calibration status of the sensor
+
+        :return: calibration status
+        :rtype: CalibrationStatus
+        """
+        _cal_status = self.read_register(InputRegister.CALIBRATION_STATUS, functioncode=4)
+        return self.CalibrationStatus(_cal_status)
+    
+    @property
+    def year_of_manufacture(self) -> int:
+        """
+        Get Year of Manufacture
+
+        :return: Year of Manufacture (YYYY)
+        :rtype: int
+        """
+        _year_of_manufacture = self.read_register(InputRegister.YOM, functioncode=4)
+        return _year_of_manufacture
+    
+    @property
+    def day_of_manufacture(self) -> int:
+        """
+        Get Day of Manufacture
+
+        :return: Day of Manufacture (DDD)
+        :rtype: int
+        """
+        _day_of_manufacture = self.read_register(InputRegister.DOM, functioncode=4)
+        return _day_of_manufacture
+    
+    @property
+    def serial_number(self) -> int:
+        """
+        Get Serial Number
+
+        :return: Serial Number (XXXXX)
+        :rtype: int
+        """
+        _serial_number = self.read_register(InputRegister.SERIAL_NO, functioncode=4)
+        return _serial_number
+    
+    @property
+    def software_revision(self) -> int:
+        """
+        Get Software Revision
+
+        :return: Software Revision (RRR)
+        :rtype: int
+        """
+        _software_revision = self.read_register(InputRegister.SOFTWARE_REV, functioncode=4)
+        return _software_revision
+    
+    
+    class CalibrationControl(IntEnum):
+        DEFAULT = 0
+        ACTIVATE = 1
+        RESET = 2
+    
+    def calibrate(self, calibration_precent: float = 20.7, calibration_timeout: int = 5) -> bool:
+        if (calibration_precent < 0) or (calibration_precent > 100):
+            print("Calibration percent out of range must be between 0 and 100")
+            return False
+        
+        calibration_value = int(calibration_precent * 100)
+    
+        self.write_register(HoldingRegister.CALIBRATION_PERCENT, calibration_value)
+        self.write_register(HoldingRegister.CALIBRATION_CONTROL, self.CalibrationControl.ACTIVATE)
+        
+        count = 0
+        while (self.calibration_status != self.CalibrationStatus.COMPLETED) and (count != calibration_timeout):
+            sleep(1)
+            count += 1
+            
+        self.write_register(HoldingRegister.CALIBRATION_CONTROL, self.CalibrationControl.RESET)
+        
+        if count == calibration_timeout:
+            return False
+        else:
+            return True
+        
+            
