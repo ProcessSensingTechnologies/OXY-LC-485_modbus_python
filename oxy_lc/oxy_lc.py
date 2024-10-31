@@ -133,12 +133,15 @@ class OxyLc(minimalmodbus.Instrument):
         :type state: HeaterOptions
         """
         self.write_register(HoldingRegister.HEATER_VOLTAGE, set_voltage)
+        
+        # MinimalModbus will throw a NoResonseError when this register is written.
+        # It must be passed or it will crash the program
         try:
             self.write_register(
                 HoldingRegister.HEATER_VOLTAGE_SAVE, self.SaveAndApply.APPLY
             )
         except minimalmodbus.NoResponseError:
-            pass
+            sleep(2)
         
         self.sensor_state = self.SensorState.ON
 
