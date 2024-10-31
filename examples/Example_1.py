@@ -5,10 +5,10 @@ device = oxy_lc.OxyLc("COM4")
 
 device.sensor_state = device.SensorState.ON
 
-device.StatusValues.STANDBY
+device.StatusValues.OPERATING
 
 while device.status() == device.StatusValues.START_UP:
-    print(f"starting up: {device.status()}")
+    print(f"starting up: {device.status}")
     sleep(5)
 
 
