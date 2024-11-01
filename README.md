@@ -50,7 +50,7 @@ This is a basic example. You can modify the script to handle specific sensor dat
 
 ## Contributing
 
-Please feel free to open issues for suppport or suggested changes.
+Please feel free to open issues for support or to suggest changes.
 
 ## License
 
