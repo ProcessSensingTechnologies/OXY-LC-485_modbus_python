@@ -9,6 +9,7 @@ This repository provides Python code for interacting with an OXY-LC-485 oxygen s
 ### Prerequisites
 
 - Python 3.11 or newer (https://www.python.org/downloads/)
+    - Older Python revisions are untested but may work.
 - A Python library for Modbus communication:
     - Recommended: minimalmodbus (lightweight, easy-to-use) - https://minimalmodbus.readthedocs.io/en/stable/
 - A USB-to-RS485 converter compatible with your system and the OXY-LC-485.
