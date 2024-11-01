@@ -39,6 +39,7 @@ Import OXY-LC-485 into the main script and initialise the device providing the p
 
 For a detailed example of how to use this library, please refer to the provided script example_1.py. This script demonstrates how to connect to the OXY-LC-485, read sensor data, and perform other common tasks.
 
+To run the example from the root folder it can be run as a module: `python -m examples.example_1`
 
 ## Additional Notes
 
