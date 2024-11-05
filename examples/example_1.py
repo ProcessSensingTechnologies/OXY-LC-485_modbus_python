@@ -23,7 +23,6 @@ while True:
     asymmetry = device.asymmetry
     td_average = device.td_average
     pressure = device.pressure
-    warnings_bits = device.warnings
     print(f"{o2_average = }\t{asymmetry = }\t{td_average = }\t{pressure = }")
     sleep(2)
     
