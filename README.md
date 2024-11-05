@@ -9,6 +9,7 @@ This repository provides Python code for interacting with an OXY-LC-485 oxygen s
 ### Prerequisites
 
 - Python 3.11 or newer (https://www.python.org/downloads/)
+    - Older Python revisions are untested but may work.
 - A Python library for Modbus communication:
     - Recommended: minimalmodbus (lightweight, easy-to-use) - https://minimalmodbus.readthedocs.io/en/stable/
 - A USB-to-RS485 converter compatible with your system and the OXY-LC-485.
@@ -39,6 +40,7 @@ Import OXY-LC-485 into the main script and initialise the device providing the p
 
 For a detailed example of how to use this library, please refer to the provided script example_1.py. This script demonstrates how to connect to the OXY-LC-485, read sensor data, and perform other common tasks.
 
+To run the example from the root folder it can be run as a module: `python -m examples.example_1`
 
 ## Additional Notes
 
@@ -48,7 +50,7 @@ This is a basic example. You can modify the script to handle specific sensor dat
 
 ## Contributing
 
-Please feel free to open issues for suppport or suggested changes.
+Please feel free to open issues for support or to suggest changes.
 
 ## License
 
