@@ -45,8 +45,10 @@ jobs:
           git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
           git config --global user.name "$(git log -n 1 --pretty=format:%an)"
           git add docs
-          git commit -m "Docs Upload"
-          git push
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Docs Upload"
+            git push
+          fi
 
   # Job to deploy the documentation to pages
   deploy-docs:
