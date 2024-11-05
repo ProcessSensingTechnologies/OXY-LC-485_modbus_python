@@ -50,6 +50,7 @@ jobs:
 
   # Job to deploy the documentation to pages
   deploy-docs:
+    needs: create_docs
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
