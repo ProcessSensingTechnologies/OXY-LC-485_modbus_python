@@ -189,30 +189,19 @@ class OxyLc(minimalmodbus.Instrument):
         self.write_register(HoldingRegister.HEATER_VOLTAGE, set_voltage)
 
     @property
-    def warnings(self) -> dict[str:bool]:
+    def warnings(self) -> str:
         """
-        Reads and decodes the warnings and returns a dictionary with each warning/error with a corresponding boolean
+        Getting current warnings as a string of bits as received by the sensor
 
-        :return: Warning states for each of the representative bits
-        :rtype: dict[str: bool]
+        :return: Warning states as bit string
+        :rtype: str
         """
-        warning_states = {
-            "Pump Error": False,
-            "Heater Voltage Error": False,
-            "Asymmetry Warning": False,
-            "O2 Low Warning": False,
-            "Pressure Sensor Warning": False,
-            "Pressure Sensor Error": False,
-        }
+
         warnings_hex = self.read_register(InputRegister.WARNINGS, functioncode=4)
-
+        
         decode_to_bits = f"{warnings_hex:08b}"
 
-        for count, state in enumerate(warning_states):
-            if decode_to_bits[::-1][count] == 1:
-                warning_states[state] = True
-
-        return warning_states
+        return decode_to_bits
 
     @property
     def td_average(self) -> float:
@@ -575,5 +564,29 @@ class OxyLc(minimalmodbus.Instrument):
             sleep(2)
 
         self.sensor_state = self.SensorState.ON
+
+
+    def display_warnings(self) -> dict[str:bool]:
+        """
+        Reads and decodes the warnings and returns a dictionary with each warning/error with a corresponding boolean showing error state
+
+        :return: Warning states for each of the representative bits (True is error)
+        :rtype: dict[str: bool]
+        """
+        warning_states = {
+            "Pump Error": False,
+            "Heater Voltage Error": False,
+            "Asymmetry Warning": False,
+            "O2 Low Warning": False,
+            "Pressure Sensor Warning": False,
+            "Pressure Sensor Error": False,
+        }
+        warnings_bits = self.warnings
+
+        for count, state in enumerate(warning_states):
+            if warnings_bits[::-1][count] == '1':
+                warning_states[state] = True
+
+        return warning_states
 
     # endregion

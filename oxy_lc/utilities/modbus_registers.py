@@ -1,6 +1,12 @@
 from enum import IntEnum
 
 class InputRegister(IntEnum):
+    """
+    Enum for use to convert to the device input registers
+
+    :param IntEnum: InputRegister
+    :type IntEnum
+    """
     O2_AVERAGE = 30001
     O2_RAW = 30002
     ASYMMETRY = 30003
@@ -25,6 +31,12 @@ class InputRegister(IntEnum):
     SOFTWARE_REV = 30022
 
 class HoldingRegister(IntEnum):
+    """
+    Enum for use to convert to the device holding registers
+
+    :param IntEnum: InputRegister
+    :type IntEnum
+    """
     SENSOR_STATE = 40001
     CLEAR_FLAGS = 40002
     SHUTDOWN_DELAY = 40003
