@@ -1,11 +1,10 @@
 import minimalmodbus
-from .utilities.modbus_registers import HoldingRegister, InputRegister
-from .utilities.conversions import twos_compliment
+from oxy_lc.utilities.modbus_registers import HoldingRegister, InputRegister
+from oxy_lc.utilities.conversions import twos_compliment
 from enum import IntEnum
 from time import sleep
 
 # region Errors
-
 
 class ValueRangeError(Exception):
     """Exception raised for value range error scenarios.
@@ -17,7 +16,6 @@ class ValueRangeError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
-
 
 # endregion
 
@@ -500,9 +498,15 @@ class OxyLc(minimalmodbus.Instrument):
     # region Methods
 
     def turn_on(self):
+        """
+        Turn the sensor On
+        """
         self.sensor_state = self.SensorState.ON
 
     def turn_off(self):
+        """
+        Turn the sensor Off
+        """
         self.sensor_state = self.SensorState.OFF
 
     def calibrate(self, calibration_value: float | None) -> bool:
