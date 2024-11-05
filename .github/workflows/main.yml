@@ -40,6 +40,11 @@ jobs:
       - name: Create docs
         run: |
           python -m pdoc oxy_lc -o ./docs
+      - name: git commit and push docs
+        run: |
+          git add docs
+          git commit -m "Docs Upload"
+          git push
 
   # Job to deploy the documentation to pages
   deploy-docs:
