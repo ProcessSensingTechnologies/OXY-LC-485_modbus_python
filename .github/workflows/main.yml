@@ -11,7 +11,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -22,8 +22,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
+  # Job to create the documentation using pdoc
+  create_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
+      - name: update pip and install dependences
+        run: |
+          python -m pip install --upgrade pip
+          pip install pdoc
+          pip install -r requirements.txt
+      - name: Create docs
+        run: |
+          python -m pdoc oxy_lc -o ./docs
+
+  # Job to deploy the documentation to pages
+  deploy-docs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
