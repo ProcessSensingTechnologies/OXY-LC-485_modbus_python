@@ -806,7 +806,7 @@
 </span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-499"><a href="#L-499"><span class="linenos">499</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SensorState</span><span class="o">.</span><span class="n">OFF</span>
 </span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a>
-</span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="L-502"><a href="#L-502"><span class="linenos">502</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-503"><a href="#L-503"><span class="linenos">503</span></a><span class="sd">        Calibrate the sensor to the given percent value</span>
 </span><span id="L-504"><a href="#L-504"><span class="linenos">504</span></a>
@@ -821,12 +821,12 @@
 </span><span id="L-513"><a href="#L-513"><span class="linenos">513</span></a>
 </span><span id="L-514"><a href="#L-514"><span class="linenos">514</span></a>        <span class="k">if</span> <span class="n">calibration_value</span><span class="p">:</span>
 </span><span id="L-515"><a href="#L-515"><span class="linenos">515</span></a>            <span class="k">try</span><span class="p">:</span>
-</span><span id="L-516"><a href="#L-516"><span class="linenos">516</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span><span class="p">(</span><span class="n">calibration_value</span><span class="p">)</span>
+</span><span id="L-516"><a href="#L-516"><span class="linenos">516</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span> <span class="o">=</span> <span class="n">calibration_value</span>
 </span><span id="L-517"><a href="#L-517"><span class="linenos">517</span></a>            <span class="k">except</span> <span class="n">ValueRangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="L-518"><a href="#L-518"><span class="linenos">518</span></a>                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </span><span id="L-519"><a href="#L-519"><span class="linenos">519</span></a>                <span class="k">return</span> <span class="kc">False</span>
 </span><span id="L-520"><a href="#L-520"><span class="linenos">520</span></a>
-</span><span id="L-521"><a href="#L-521"><span class="linenos">521</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span><span class="p">)</span>
+</span><span id="L-521"><a href="#L-521"><span class="linenos">521</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span>
 </span><span id="L-522"><a href="#L-522"><span class="linenos">522</span></a>
 </span><span id="L-523"><a href="#L-523"><span class="linenos">523</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="L-524"><a href="#L-524"><span class="linenos">524</span></a>        <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5</span>
@@ -1453,7 +1453,7 @@
 </span><span id="OxyLc-499"><a href="#OxyLc-499"><span class="linenos">499</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="OxyLc-500"><a href="#OxyLc-500"><span class="linenos">500</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SensorState</span><span class="o">.</span><span class="n">OFF</span>
 </span><span id="OxyLc-501"><a href="#OxyLc-501"><span class="linenos">501</span></a>
-</span><span id="OxyLc-502"><a href="#OxyLc-502"><span class="linenos">502</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="OxyLc-502"><a href="#OxyLc-502"><span class="linenos">502</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="OxyLc-503"><a href="#OxyLc-503"><span class="linenos">503</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="OxyLc-504"><a href="#OxyLc-504"><span class="linenos">504</span></a><span class="sd">        Calibrate the sensor to the given percent value</span>
 </span><span id="OxyLc-505"><a href="#OxyLc-505"><span class="linenos">505</span></a>
@@ -1468,12 +1468,12 @@
 </span><span id="OxyLc-514"><a href="#OxyLc-514"><span class="linenos">514</span></a>
 </span><span id="OxyLc-515"><a href="#OxyLc-515"><span class="linenos">515</span></a>        <span class="k">if</span> <span class="n">calibration_value</span><span class="p">:</span>
 </span><span id="OxyLc-516"><a href="#OxyLc-516"><span class="linenos">516</span></a>            <span class="k">try</span><span class="p">:</span>
-</span><span id="OxyLc-517"><a href="#OxyLc-517"><span class="linenos">517</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span><span class="p">(</span><span class="n">calibration_value</span><span class="p">)</span>
+</span><span id="OxyLc-517"><a href="#OxyLc-517"><span class="linenos">517</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span> <span class="o">=</span> <span class="n">calibration_value</span>
 </span><span id="OxyLc-518"><a href="#OxyLc-518"><span class="linenos">518</span></a>            <span class="k">except</span> <span class="n">ValueRangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="OxyLc-519"><a href="#OxyLc-519"><span class="linenos">519</span></a>                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </span><span id="OxyLc-520"><a href="#OxyLc-520"><span class="linenos">520</span></a>                <span class="k">return</span> <span class="kc">False</span>
 </span><span id="OxyLc-521"><a href="#OxyLc-521"><span class="linenos">521</span></a>
-</span><span id="OxyLc-522"><a href="#OxyLc-522"><span class="linenos">522</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span><span class="p">)</span>
+</span><span id="OxyLc-522"><a href="#OxyLc-522"><span class="linenos">522</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span>
 </span><span id="OxyLc-523"><a href="#OxyLc-523"><span class="linenos">523</span></a>
 </span><span id="OxyLc-524"><a href="#OxyLc-524"><span class="linenos">524</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="OxyLc-525"><a href="#OxyLc-525"><span class="linenos">525</span></a>        <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5</span>
@@ -2555,13 +2555,13 @@ Returned as Enum from StatusValues</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">calibrate</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+        <span class="name">calibrate</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
 
                 <label class="view-source-button" for="OxyLc.calibrate-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#OxyLc.calibrate"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="OxyLc.calibrate-502"><a href="#OxyLc.calibrate-502"><span class="linenos">502</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="OxyLc.calibrate-502"><a href="#OxyLc.calibrate-502"><span class="linenos">502</span></a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="OxyLc.calibrate-503"><a href="#OxyLc.calibrate-503"><span class="linenos">503</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="OxyLc.calibrate-504"><a href="#OxyLc.calibrate-504"><span class="linenos">504</span></a><span class="sd">        Calibrate the sensor to the given percent value</span>
 </span><span id="OxyLc.calibrate-505"><a href="#OxyLc.calibrate-505"><span class="linenos">505</span></a>
@@ -2576,12 +2576,12 @@ Returned as Enum from StatusValues</p>
 </span><span id="OxyLc.calibrate-514"><a href="#OxyLc.calibrate-514"><span class="linenos">514</span></a>
 </span><span id="OxyLc.calibrate-515"><a href="#OxyLc.calibrate-515"><span class="linenos">515</span></a>        <span class="k">if</span> <span class="n">calibration_value</span><span class="p">:</span>
 </span><span id="OxyLc.calibrate-516"><a href="#OxyLc.calibrate-516"><span class="linenos">516</span></a>            <span class="k">try</span><span class="p">:</span>
-</span><span id="OxyLc.calibrate-517"><a href="#OxyLc.calibrate-517"><span class="linenos">517</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span><span class="p">(</span><span class="n">calibration_value</span><span class="p">)</span>
+</span><span id="OxyLc.calibrate-517"><a href="#OxyLc.calibrate-517"><span class="linenos">517</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">calibration_value</span> <span class="o">=</span> <span class="n">calibration_value</span>
 </span><span id="OxyLc.calibrate-518"><a href="#OxyLc.calibrate-518"><span class="linenos">518</span></a>            <span class="k">except</span> <span class="n">ValueRangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="OxyLc.calibrate-519"><a href="#OxyLc.calibrate-519"><span class="linenos">519</span></a>                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </span><span id="OxyLc.calibrate-520"><a href="#OxyLc.calibrate-520"><span class="linenos">520</span></a>                <span class="k">return</span> <span class="kc">False</span>
 </span><span id="OxyLc.calibrate-521"><a href="#OxyLc.calibrate-521"><span class="linenos">521</span></a>
-</span><span id="OxyLc.calibrate-522"><a href="#OxyLc.calibrate-522"><span class="linenos">522</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span><span class="p">)</span>
+</span><span id="OxyLc.calibrate-522"><a href="#OxyLc.calibrate-522"><span class="linenos">522</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CalibrationControl</span><span class="o">.</span><span class="n">ACTIVATE</span>
 </span><span id="OxyLc.calibrate-523"><a href="#OxyLc.calibrate-523"><span class="linenos">523</span></a>
 </span><span id="OxyLc.calibrate-524"><a href="#OxyLc.calibrate-524"><span class="linenos">524</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="OxyLc.calibrate-525"><a href="#OxyLc.calibrate-525"><span class="linenos">525</span></a>        <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5</span>
