@@ -392,6 +392,7 @@ class OxyLc(minimalmodbus.Instrument):
     def calibration_value(self) -> float:
         """
         Return current calibration value
+        calibration_value defaults to 20.7 on new interface boards.
 
         :return: calibration (%)
         :rtype: float
@@ -402,7 +403,8 @@ class OxyLc(minimalmodbus.Instrument):
     @calibration_value.setter
     def calibration_value(self, value: float) -> None:
         """
-        Set the calibration value for the sensor
+        Set the calibration value for the sensor.
+        Value is then stored in memory even after power cycle
 
         :param value: Calibration value between 0% and 100%
         :type value: float
@@ -502,7 +504,8 @@ class OxyLc(minimalmodbus.Instrument):
         """
         Calibrate the sensor to the given percent value
 
-        :param calibration_precent: O2 percent for calibration, defaults to 20.7
+        :param calibration_precent: O2 percent for calibration, If None is passed it will use the stored calibration_value.
+                                    calibration_value defaults to 20.7 on new interface boards.
         :type calibration_precent: float, optional
         :return: boolean indication of success
         :rtype: bool
