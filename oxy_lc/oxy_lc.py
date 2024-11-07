@@ -498,7 +498,7 @@ class OxyLc(minimalmodbus.Instrument):
         """
         self.sensor_state = self.SensorState.OFF
 
-    def calibrate(self, calibration_value: float | None) -> bool:
+    def calibrate(self, calibration_value: float | None = None) -> bool:
         """
         Calibrate the sensor to the given percent value
 
@@ -513,12 +513,12 @@ class OxyLc(minimalmodbus.Instrument):
 
         if calibration_value:
             try:
-                self.calibration_value(calibration_value)
+                self.calibration_value = calibration_value
             except ValueRangeError as e:
                 print(e)
                 return False
 
-        self.calibration_control(self.CalibrationControl.ACTIVATE)
+        self.calibration_control = self.CalibrationControl.ACTIVATE
 
         count = 0
         timeout = 5

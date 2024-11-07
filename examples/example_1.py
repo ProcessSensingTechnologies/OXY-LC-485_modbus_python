@@ -3,7 +3,7 @@ from time import sleep
 
 device = oxy_lc.OxyLc("COM7")
 
-device.sensor_state = device.SensorState.ON
+device.turn_on()
 
 sleep(2)
 
